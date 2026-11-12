@@ -1,0 +1,15 @@
+# Course deliverables are kept out of the code repository
+report/
+poster/
+pitch/
+figures/
+
+# Sample graph with real user IDs; rebuild with scripts/extract_graph_sample.py
+data/sample/
+
+# Local and generated files
+.DS_Store
+__pycache__/
+*.pyc
+runs/
+.venv/
