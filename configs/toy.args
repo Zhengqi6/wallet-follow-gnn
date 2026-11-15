@@ -1,0 +1,26 @@
+# Small settings for the synthetic toy data (scripts/make_toy_data.py).
+# Same model and protocol as configs/main_experiment.args, scaled down so one
+# seed runs in seconds on the A100 (and under a minute on a CPU).
+--split-mode temporal
+--negative-mode two_hop
+--eval-negative-mode two_hop
+--hard-negative-ratio 0.3
+--rank-negatives 49
+--epochs 4
+--hidden-dim 32
+--enhanced-use-tx-features 1
+--enhanced-use-tx-graph 0
+--tx-graph-weight 0
+--tx-feature-gate 1
+--degree-aware-gate 1
+--residual-tx-decode 1
+--residual-tx-scale 0.15
+--train-edge-batch-size 4096
+--eval-edge-batch-size 4096
+--eval-every 1
+--degree-gate-alpha 1.1
+--degree-gate-beta 1.2
+--degree-gate-cutoff 0.25
+--degree-gate-min 0.02
+--two-hop-mid-cap 32
+--two-hop-pool-cap 128

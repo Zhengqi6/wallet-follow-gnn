@@ -37,27 +37,70 @@ it gives the best Hits@10 (0.259 → 0.359).
 
 | Path | Content |
 |---|---|
-| `artifact/train_tx_enhanced_gnn.py` | Training and evaluation script (baseline and wallet model in one run) |
-| `artifact/README.md` | Environment, data format, the exact command, and the equivalence check |
-| `artifact/requirements.txt` | Pinned versions (Python 3.9, PyTorch 2.8.0+cu128, NumPy 1.26.4, scikit-learn 1.0.2) |
+| `artifact/train_tx_enhanced_gnn.py` | Training and evaluation: baseline and wallet model, same split and seed, in one run |
+| `artifact/README.md` | Environment, the exact command, and the equivalence check of the rebuilt source |
+| `artifact/requirements.txt` | Pinned versions (Python 3.9, PyTorch 2.8.0+cu128, NumPy 1.26.4, scikit-learn 1.0.2, SciPy 1.13.1, Matplotlib 3.5.2) |
+| `configs/main_experiment.args` | All flags of the main experiment (checked against the archived run configs) |
+| `configs/toy.args` | The same model and protocol, scaled down for the toy data |
+| `scripts/run_seeds.sh` | Runs the main experiment for a range of seeds |
+| `scripts/slurm_run_seeds.sbatch` | Slurm array job: seeds 92–99, one A100 each |
+| `scripts/paired_stats.py` | Paired bootstrap CIs and exact sign-flip tests, overall and per source-degree bucket |
 | `scripts/collect_results.py` | Reads every run in `data/raw/` and writes `data/results.json` |
 | `scripts/make_figures.py` | Result figures from `data/results.json` |
+| `scripts/make_toy_data.py` | Small synthetic dataset in the exact input format |
 | `scripts/extract_graph_sample.py` | Rebuilds the sample graph from the raw Farcaster and transaction files |
 | `scripts/make_real_figures.py` | Figures of the real sample graph (needs the output of `extract_graph_sample.py`) |
-| `data/raw/` | Per-run `metrics_report.json` and reviewer reports (bootstrap CIs, permutation tests) |
+| `tests/smoke_test.sh` | End-to-end check on toy data: train 2 seeds, run the paired statistics |
+| `docs/DATA.md` | Input file format, sizes, and how to get the data |
+| `data/raw/` | Per-run `metrics_report.json` and the archived reviewer reports |
 | `data/results.json` | Every number reported in the thesis and poster |
 
 ## Reproduce
 
-Training (one seed; the thesis uses seeds 92–99), on a machine with the raw
-data. All flags in `artifact/README.md` are required to match the reported runs:
+Hardware used for the thesis: one NVIDIA A100 80GB (Slurm cluster). One seed
+trains both models in about 2–3 minutes.
+
+**1. Environment**
 
 ```bash
+python3.9 -m venv .venv && source .venv/bin/activate
 pip install -r artifact/requirements.txt
-python artifact/train_tx_enhanced_gnn.py --seed 92 --out-dir runs/tx200k_seed92 ...
 ```
 
-Numbers and figures from the archived runs (no GPU or raw data needed):
+**2. Check the pipeline on toy data** (about a minute):
+
+```bash
+PYTHON=python tests/smoke_test.sh
+```
+
+**3. Main experiment** with the raw data (see `docs/DATA.md`), seeds 92–99:
+
+```bash
+LINKS=/data/links.jsonl TX=/data/fid_main_addr_all_transactions.jsonl \
+  scripts/run_seeds.sh 92 99 runs/main
+```
+
+or as a Slurm array job, one A100 per seed:
+
+```bash
+sbatch --export=ALL,LINKS=/data/links.jsonl,TX=/data/fid_main_addr_all_transactions.jsonl \
+  scripts/slurm_run_seeds.sbatch
+```
+
+**4. Statistics** for new runs, or for the archived ones:
+
+```bash
+python scripts/paired_stats.py runs/main --out runs/main/stats
+python scripts/paired_stats.py data/raw/strict_iter4
+```
+
+On the archived runs this reproduces the mean and standard deviation of every
+paired difference in the reviewer reports exactly (27 metric-bucket pairs); the
+p-values come from the exact sign-flip test (2^8 sign patterns) instead of a
+random sample of flips.
+
+**5. Numbers and figures** of the thesis, from the archived runs (no GPU or raw
+data needed):
 
 ```bash
 python scripts/collect_results.py
@@ -66,9 +109,10 @@ python scripts/make_figures.py
 
 ## Data
 
-The raw data (about 1.1 TB of public Farcaster protocol messages and wallet
-transaction records) is not included. The sample graph with user IDs is also
-left out; `scripts/extract_graph_sample.py` rebuilds it from the raw files.
+The raw data (about 1.1 TB of public Farcaster messages and wallet
+transactions) is not included; it is available from the author on request.
+`docs/DATA.md` gives the exact input format. The sample graph with account IDs
+is also left out; `scripts/extract_graph_sample.py` rebuilds it.
 
 ## Notes
 

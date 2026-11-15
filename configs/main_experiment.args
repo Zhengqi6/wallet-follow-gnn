@@ -1,0 +1,29 @@
+# Flags of the main experiment (Chapter 3 of the thesis). One flag per line;
+# blank lines and lines starting with # are ignored. --links-path, --tx-path,
+# --seed and --out-dir are added by scripts/run_seeds.sh.
+--max-tx-rows 200000
+--max-link-rows 1000000
+--max-follow-edges 250000
+--split-mode temporal
+--negative-mode two_hop
+--eval-negative-mode two_hop
+--hard-negative-ratio 0.3
+--rank-negatives 99
+--epochs 8
+--hidden-dim 128
+--enhanced-use-tx-features 1
+--enhanced-use-tx-graph 0
+--tx-graph-weight 0
+--tx-feature-gate 1
+--degree-aware-gate 1
+--residual-tx-decode 1
+--residual-tx-scale 0.15
+--train-edge-batch-size 60000
+--eval-edge-batch-size 60000
+--eval-every 1
+--degree-gate-alpha 1.1
+--degree-gate-beta 1.2
+--degree-gate-cutoff 0.25
+--degree-gate-min 0.02
+--two-hop-mid-cap 32
+--two-hop-pool-cap 128
