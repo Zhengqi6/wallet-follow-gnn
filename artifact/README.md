@@ -67,12 +67,14 @@ python train_tx_enhanced_gnn.py \
 
 **Important:** you need the last group of flags, from `--train-edge-batch-size` to
 `--two-hop-pool-cap`. They come from the `config` block of the archived run in
-`data/raw/strict_iter4/tx200k_seed92/.../metrics_report.json`, and the short command in the
-report appendix leaves them out. Without them the script uses its defaults (batch 200000,
-`--eval-every 2`, different gate and two-hop settings), and seed 92 then gives a test AUC of
-about 0.525 for the baseline and 0.566 for tx-enhanced, not 0.683 and 0.690.
+`data/raw/strict_iter4/tx200k_seed92/.../metrics_report.json`. Without them the script uses
+its defaults (batch 200000, `--eval-every 2`, different gate and two-hop settings), and seed 92
+then gives a test AUC of about 0.525 for the baseline and 0.566 for tx-enhanced, not 0.683 and
+0.690. The same flags are kept in `configs/main_experiment.args`, checked against the archived
+run configuration.
 
-For the other seeds, change `--seed` and `--out-dir`; the report used seeds 92–99.
+For all seeds of the thesis (92–99), use `scripts/run_seeds.sh` or the Slurm array job
+`scripts/slurm_run_seeds.sbatch` from the repository root (see the top-level README).
 Each run takes about 2–3 minutes on an A100.
 
 Every run writes into `<out-dir>/<YYYYmmdd_HHMMSS>/`:
