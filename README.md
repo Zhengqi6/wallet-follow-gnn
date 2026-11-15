@@ -1,4 +1,6 @@
-# Does Your Wallet Know Whom You'll Follow?
+# Decentralized Social Network Recommendation
+
+*Does your wallet know whom you'll follow?*
 
 Code and results for an AIS5281 project (NUS, AI for Science): who-to-follow
 recommendation on Farcaster, a blockchain-based social network, using each

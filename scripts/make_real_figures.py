@@ -69,7 +69,8 @@ def fig_real_network(n_sources=12, seed=7, poster=False):
                            node_size=[size[n] for n in active], edgecolors="white", linewidths=0.6)
     ax.set_axis_off()
     share = len(active) / g.number_of_nodes()
-    ax.set_title(f"{g.number_of_nodes()} real users, {g.number_of_edges()} follows", loc="left",
+    ax.set_title(f"{g.number_of_nodes()} real users, {g.number_of_edges()} follows:\nmost wallets are silent" if poster
+                 else f"{g.number_of_nodes()} real users, {g.number_of_edges()} follows", loc="left",
                  fontsize=24 if poster else None)
     from matplotlib.lines import Line2D
     ms = 13 if poster else 6
