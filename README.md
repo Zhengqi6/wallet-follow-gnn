@@ -110,7 +110,8 @@ python scripts/make_figures.py
 ## Data
 
 The raw data (about 1.1 TB of public Farcaster messages and wallet
-transactions) is not included; it is available from the author on request.
+transactions) is not included. Download (Baidu Netdisk, extraction code `iv97`):
+<https://pan.baidu.com/s/1KDDEf7P8fcx1kIZNC5WJog?pwd=iv97>; see `docs/DATA.md`.
 `docs/DATA.md` gives the exact input format. The sample graph with account IDs
 is also left out; `scripts/extract_graph_sample.py` rebuilds it.
 

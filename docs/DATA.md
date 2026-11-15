@@ -10,10 +10,21 @@ data: Farcaster hub messages and on-chain wallet activity.
 | `links.jsonl` | Farcaster link messages (who follows whom, with timestamps) | first 1,000,000 rows → 250,000 follow edges |
 | `fid_main_addr_all_transactions.jsonl` | one row per (account, verified wallet) with that wallet's transactions | first 200,000 rows → 14,801 accounts, 56,079 payments |
 
-The full raw collection is about **1.1 TB**. It is too large for this
-repository and is available from the author on request (Baidu Netdisk link or
-external drive). Everything is public and can also be re-collected from a
-Farcaster hub (link messages) and a blockchain data provider (address
+The full raw collection is about **1.1 TB**, too large for this repository.
+
+**Download:** Baidu Netdisk, <https://pan.baidu.com/s/1KDDEf7P8fcx1kIZNC5WJog?pwd=iv97>
+(extraction code `iv97`). Upload is still in progress; available so far:
+
+| File | Size |
+|---|---|
+| `fid_main_addr_all_transactions.jsonl` | 180.6 GB |
+| `fid_main_addr_all_transactions_part2.jsonl` | 478 GB |
+| `fid_main_addr_all_transactions_part3.jsonl` | 75.6 GB |
+
+The thesis experiments read the first 200,000 rows of
+`fid_main_addr_all_transactions.jsonl`. The data can also be obtained on an
+external drive from the author. Everything is public and can be re-collected
+from a Farcaster hub (link messages) and a blockchain data provider (address
 transactions).
 
 ## Format
